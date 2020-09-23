@@ -65,25 +65,30 @@ def render(img_rgb):
 def cartoonify(file_name):    
     img_rgb = cv2.imread(file_name)
     numBilateralFilters = 3
-
+    cv2.imshow("goc",img_rgb)
     img_color = img_rgb
+    
+    for i in range(numBilateralFilters):
+
+      img_color = cv2.bilateralFilter(img_color,15 , 30, 20)
+
+      #cv2.imshow(str.format("name{0}",i),img_color)
+    cv2.imshow("blur1",img_color)
+
 
     for i in range(numBilateralFilters):
 
-      img_color = cv2.bilateralFilter(img_color, 15, 30, 20)
+      img_rgb = cv2.bilateralFilter(img_rgb,5 , 50, 20)
 
       #cv2.imshow(str.format("name{0}",i),img_color)
-
+    cv2.imshow("blur2",img_rgb)
     img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
-
+    #cv2.imshow("img_gray",img_gray)
     img_blur = cv2.medianBlur(img_gray, 7)
 
     #cv2.imshow("name",img_blur)
 
-    img_edge = cv2.adaptiveThreshold(img_blur, 2,cv2.ADAPTIVE_THRESH_MEAN_C,
-
-    cv2.THRESH_BINARY, 3, 2)
-
+    img_edge = cv2.adaptiveThreshold(img_gray, 2,cv2.ADAPTIVE_THRESH_MEAN_C,cv2.THRESH_BINARY, 3, 2)
     #cv2.imshow("img_edge",img_edge)
     #cv2.imshow("img_color",img_color)
     img_edge = cv2.cvtColor(img_edge, cv2.COLOR_GRAY2RGB)
